@@ -1,29 +1,43 @@
+import tkinter as tk
+from tkinter import filedialog
+
+def selectDir():
+    root = tk.Tk()
+    root.withdraw()
+
+    directory_path = filedialog.askdirectory()
+    return directory_path
+
+
 import requests
+import os
+
+def downloader(url, path):
+    try:
+        # 发送 HTTP 请求获取文件数据
+        response = requests.get(url, stream=True)
+        response.raise_for_status()  # 检查请求是否成功
+
+        # 确保目录存在
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+
+        # 打开文件并写入数据
+        with open(path, 'wb') as file:
+            for chunk in response.iter_content(chunk_size=8192):
+                file.write(chunk)
+                
+        return True
+
+    except requests.exceptions.RequestException as e:
+        return "E2"
+
 import zipfile
-import io
+import os
+def unzip(filePath):
+    try:
+        parent_dir = os.path.dirname(filePath)
 
-def downloader(url):
-    """
-    从指定URL下载ZIP文件并返回字节流
-    """
-    response = requests.get(url)
-    if response.status_code == 200:
-        return io.BytesIO(response.content)
-    else:
-        raise Exception(f"下载失败，状态码：{response.status_code}")
-
-def extracter(file_bytes, extract_to='.'):
-    """
-    解压字节流中的ZIP文件到指定目录
-    """
-    with zipfile.ZipFile(file_bytes, 'r') as zip_ref:
-        zip_ref.extractall(extract_to)
-    print("文件解压成功")
-
-# # 示例使用
-# url = 'http://example.com/file.zip'
-# try:
-#     zip_file_bytes = download_zip(url)
-#     extract_zip(zip_file_bytes, extract_to='your_target_directory')
-# except Exception as e:
-#     print(e)
+        with zipfile.ZipFile(filePath, 'r') as zip_ref:
+            zip_ref.extractall(parent_dir)
+    except:
+        return "E3"
