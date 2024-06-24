@@ -8,7 +8,7 @@ import re
 accurateMode = False
 
 failCount = 0
-data = json.loads(getSongs())
+data = json.loads(getSongs(input("Please paste the link of your song list here"))
 
 print("Please open the installation directory of Beat Saber")
 gameDir = os.path.join(selectDir(), "Beat Saber_Data/CustomLevels")
