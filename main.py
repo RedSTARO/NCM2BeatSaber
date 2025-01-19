@@ -6,7 +6,8 @@ import os
 import re
 from tqdm import tqdm
 
-accurateMode = True
+accurateMode = False
+DIR = "H:\\Steam\\steamapps\\common\\Beat Saber"
 
 failCount = 0
 songListURL = input("Please paste the link of your song list here:")
@@ -17,7 +18,8 @@ if songListURL == "":
 data = json.loads(getSongs(songListURL))
 
 print("Please open the installation directory of Beat Saber")
-gameDir = os.path.join(selectDir(), "Beat Saber_Data/CustomLevels")
+gameDir = os.path.join(DIR, "Beat Saber_Data/CustomLevels")
+# gameDir = os.path.join(selectDir(), "Beat Saber_Data/CustomLevels")
 
 if not os.path.exists(gameDir):
         os.makedirs(gameDir)
@@ -41,8 +43,8 @@ for song in tqdm(data['data']['songs'], desc = "Progress", unit = "Songs"):
         failCount += 1
     else:
         # print("URL:" + mapResult)
-        downloadPath = os.path.join(gameDir, re.sub(r'[\\/*?:"<>|]', '', songName), "data.zip")
-        downloadResult = downloader(mapResult, downloadPath)
+        downloadPath = os.path.join(gameDir, re.sub(r'[\\/*?:."<>|～!]', '', songName), "data.zip")
+        downloadResult = downloader(mapResult, os.path.normpath(downloadPath))
         if downloadResult == "E2":
             tqdm.write(f"Error when download {gameDir} to {songName}.zip")
             failCount += 1
