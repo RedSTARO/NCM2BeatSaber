@@ -6,7 +6,7 @@ import os
 import re
 from tqdm import tqdm
 
-accurateMode = False
+accurateMode = True
 DIR = "H:\\Steam\\steamapps\\common\\Beat Saber"
 
 failCount = 0
@@ -34,7 +34,7 @@ print("Songs Count:", data['data']['songs_count'])
 print("Songs List:")
 for song in tqdm(data['data']['songs'], desc = "Progress", unit = "Songs"):
     songName = song.split(" - ")[0]
-    if accurateMode == True:
+    if accurateMode == False:
         song = songName
     tqdm.write("Fetching " + song)
     mapResult = getMap(song)
