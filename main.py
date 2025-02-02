@@ -1,4 +1,4 @@
-from ncm import getSongs
+from ncm import *
 from beatsaver import getMap
 from tools import *
 import json
@@ -6,17 +6,17 @@ import os
 import re
 from tqdm import tqdm
 
-accurateMode = True
+accurateMode = False
 DIR = "H:\\Steam\\steamapps\\common\\Beat Saber"
 
 failCount = 0
-songListURL = input("Please paste the link of your song list here:")
+songListID = input("Please PASTE the id of your song from NCM list here:")
 
-if songListURL == "":
-    songListURL = "https://music.163.com/#/playlist?id=3219642517"
+if songListID == "":
+    songListID = "3219642517"
 
-data = json.loads(getSongs(songListURL))
-
+# data = json.loads(getSongsFromNCM(songListID))
+data = json.loads(getSongsFromJson("t.json"))
 print("Please open the installation directory of Beat Saber")
 gameDir = os.path.join(DIR, "Beat Saber_Data/CustomLevels")
 # gameDir = os.path.join(selectDir(), "Beat Saber_Data/CustomLevels")
@@ -28,14 +28,17 @@ else:
     print(f"Directory '{gameDir}' has been found")
 
 
-print("Playlist fetch Status:", data['msg'])
-print("Playlist Name:", data['data']['name'])
-print("Songs Count:", data['data']['songs_count'])
+print("Playlist fetch Status:", data['code'])
+# print("Playlist Name:", data['data']['name'])
+print("Songs Count:", len(data["songs"]))
 print("Songs List:")
-for song in tqdm(data['data']['songs'], desc = "Progress", unit = "Songs"):
-    songName = song.split(" - ")[0]
-    if accurateMode == False:
+for song in tqdm(data["songs"], desc = "Progress", unit = "Songs"):
+    songName = song["name"]
+    if accurateMode:
+        song = songName + " " + song["al"]["name"]
+    else:
         song = songName
+
     tqdm.write("Fetching " + song)
     mapResult = getMap(song)
     if mapResult == "E1":
