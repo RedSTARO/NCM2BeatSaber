@@ -17,6 +17,10 @@ if songListID == "":
 
 # data = json.loads(getSongsFromNCM(songListID))
 data = json.loads(getSongsFromJson("t.json"))
+status = data['code']
+songCount = len(data["songs"])
+songList = data["songs"]
+
 print("Please open the installation directory of Beat Saber")
 gameDir = os.path.join(DIR, "Beat Saber_Data/CustomLevels")
 # gameDir = os.path.join(selectDir(), "Beat Saber_Data/CustomLevels")
@@ -28,11 +32,11 @@ else:
     print(f"Directory '{gameDir}' has been found")
 
 
-print("Playlist fetch Status:", data['code'])
+print("Playlist fetch Status:", status)
 # print("Playlist Name:", data['data']['name'])
-print("Songs Count:", len(data["songs"]))
+print("Songs Count:", songCount)
 print("Songs List:")
-for song in tqdm(data["songs"], desc = "Progress", unit = "Songs"):
+for song in tqdm(songList, desc = "Progress", unit = "Songs"):
     songName = song["name"]
     if accurateMode:
         song = songName + " " + song["al"]["name"]
@@ -59,6 +63,6 @@ for song in tqdm(data["songs"], desc = "Progress", unit = "Songs"):
                 tqdm.write(f"Error when unzip {downloadPath}")
                 failCount += 1
 
-print("Songs Count:", data['data']['songs_count'])
+print("Songs Count:", songCount)
 print("Failed Count:", failCount)
-print("Success Count:", data['data']['songs_count'] - failCount)
+print("Success Count:", songCount - failCount)
