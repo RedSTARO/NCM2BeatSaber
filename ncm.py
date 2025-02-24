@@ -37,12 +37,12 @@ def getSongs(listUrl = "https://music.163.com/#/playlist?id=3219642517"):
     return response.text
 
 def getSongsFromNCM(id = "3219642517"):
-    # api = f"http://ncm.tryagain.fun/playlist/track/all?id={id}&realIP=192.168.1.1"
-    api = f"http://192.168.1.19:3000/playlist/track/all?id={id}&realIP=192.168.1.1"
+    api = f"http://ncm.tryagain.fun/playlist/track/all?id={id}&realIP=192.168.1.1"
+    # api = f"http://192.168.1.19:3000/playlist/track/all?id={id}&realIP=192.168.1.1"
     # print(api)
-    response = requests.get(api + id, headers=headers)
-    print(api)
-    print(response.text)
+    response = requests.get(api)
+    # print(api)
+    # print(response.text)
     return response.text
 
 def getSongsFromJson(file = "t.json"):

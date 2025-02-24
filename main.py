@@ -7,7 +7,7 @@ import re
 from tqdm import tqdm
 
 accurateMode = False
-DIR = "H:\\Steam\\steamapps\\common\\Beat Saber"
+DIR = "D:\SteamLibrary\steamapps\common\Beat Saber"
 
 failCount = 0
 songListID = input("Please PASTE the id of your song from NCM list here:")
@@ -15,8 +15,8 @@ songListID = input("Please PASTE the id of your song from NCM list here:")
 if songListID == "":
     songListID = "3219642517"
 
-# data = json.loads(getSongsFromNCM(songListID))
-data = json.loads(getSongsFromJson("t.json"))
+data = json.loads(getSongsFromNCM(songListID))
+# data = json.loads(getSongsFromJson("t.json"))
 status = data['code']
 songCount = len(data["songs"])
 songList = data["songs"]
