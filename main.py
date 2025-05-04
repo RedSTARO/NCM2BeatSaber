@@ -6,7 +6,8 @@ import os
 import re
 from tqdm import tqdm
 
-accurateMode = False
+
+accurateMode = True
 DIR = "D:\SteamLibrary\steamapps\common\Beat Saber"
 
 failCount = 0
